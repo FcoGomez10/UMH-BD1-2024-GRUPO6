@@ -1,0 +1,235 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2024-11-14 22:22
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: Fco Gomez
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Solicitud` (
+  `idSolicitud` VARCHAR(10) NOT NULL,
+  `FechaSolicitud` DATETIME NULL DEFAULT NULL,
+  `OficinaRetiro` VARCHAR(45) NULL DEFAULT NULL,
+  `FechaHoraRetiro` DATETIME NULL DEFAULT NULL,
+  `OficinaDevolucion` VARCHAR(45) NULL DEFAULT NULL,
+  `FechaHoraDevolucion` DATETIME NULL DEFAULT NULL,
+  `Cliente_idCliente` VARCHAR(10) NOT NULL,
+  `Oficina_idOficina` VARCHAR(10) NOT NULL,
+  `Tarifa_idTarifa` INT(11) NOT NULL,
+  PRIMARY KEY (`idSolicitud`),
+  INDEX `fk_Solicitud_Cliente_idx` (`Cliente_idCliente` ASC) VISIBLE,
+  INDEX `fk_Solicitud_Oficina1_idx` (`Oficina_idOficina` ASC) VISIBLE,
+  INDEX `fk_Solicitud_Tarifa1_idx` (`Tarifa_idTarifa` ASC) VISIBLE,
+  CONSTRAINT `fk_Solicitud_Cliente`
+    FOREIGN KEY (`Cliente_idCliente`)
+    REFERENCES `mydb`.`tbl_Cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Solicitud_Oficina1`
+    FOREIGN KEY (`Oficina_idOficina`)
+    REFERENCES `mydb`.`tbl_Oficina` (`idOficina`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Solicitud_Tarifa1`
+    FOREIGN KEY (`Tarifa_idTarifa`)
+    REFERENCES `mydb`.`tbl_Tarifa` (`idTarifa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Cliente` (
+  `idCliente` VARCHAR(10) NOT NULL,
+  `NombreCompleto` VARCHAR(45) NULL DEFAULT NULL,
+  `Edad` INT(11) NULL DEFAULT NULL,
+  `NoIdentidad` INT(11) NULL DEFAULT NULL,
+  `LugarTrabajo` VARCHAR(60) NULL DEFAULT NULL,
+  `FechaNacimiento` DATETIME NULL DEFAULT NULL,
+  `NumeroLicencia` INT(11) NULL DEFAULT NULL,
+  `Ocupacion` VARCHAR(45) NULL DEFAULT NULL,
+  `CorreoElectronico` VARCHAR(45) NULL DEFAULT NULL,
+  `FechaVenceLicencia` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`idCliente`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Referencia` (
+  `idPersonaContacto` VARCHAR(10) NOT NULL,
+  `NombreCompleto` VARCHAR(45) NULL DEFAULT NULL,
+  `FechaNacimiento` DATETIME NULL DEFAULT NULL,
+  `NoIdentidad` INT(11) NULL DEFAULT NULL,
+  `FechaNacimiento` DATETIME NULL DEFAULT NULL,
+  `Direccion` VARCHAR(60) NULL DEFAULT NULL,
+  `Parentesco` VARCHAR(45) NULL DEFAULT NULL,
+  `CorreoElectronico` VARCHAR(45) NULL DEFAULT NULL,
+  `Cliente_idCliente` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`idPersonaContacto`),
+  INDEX `fk_Referencia_Cliente1_idx` (`Cliente_idCliente` ASC) VISIBLE,
+  CONSTRAINT `fk_Referencia_Cliente1`
+    FOREIGN KEY (`Cliente_idCliente`)
+    REFERENCES `mydb`.`tbl_Cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Tarifa` (
+  `idTarifa` INT(11) NOT NULL,
+  `PrecioServicio` DECIMAL(10) NULL DEFAULT NULL,
+  `idVehiculo` VARCHAR(10) NOT NULL,
+  `idtbl_Estado` INT(11) NOT NULL,
+  `idtbl_pago` INT(11) NOT NULL,
+  `Pago` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idTarifa`),
+  INDEX `fk_Tarifa_Vehiculo1_idx` (`idVehiculo` ASC) VISIBLE,
+  INDEX `fk_tbl_Tarifa_tbl_Estado1_idx` (`idtbl_Estado` ASC) VISIBLE,
+  CONSTRAINT `fk_Tarifa_Vehiculo1`
+    FOREIGN KEY (`idVehiculo`)
+    REFERENCES `mydb`.`tbl_Vehiculo` (`idVehiculo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_Tarifa_tbl_Estado1`
+    FOREIGN KEY (`idtbl_Estado`)
+    REFERENCES `mydb`.`tbl_Estado` (`idtbl_Estado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Oficina` (
+  `idOficina` VARCHAR(10) NOT NULL,
+  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Estado` VARCHAR(45) NULL DEFAULT NULL,
+  `Telefono` INT(11) NULL DEFAULT NULL,
+  `Direccion` VARCHAR(60) NULL DEFAULT NULL,
+  PRIMARY KEY (`idOficina`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Vehiculo` (
+  `idVehiculo` VARCHAR(10) NOT NULL,
+  `NumeroVIN` VARCHAR(17) NULL DEFAULT NULL,
+  `Matricula` VARCHAR(7) NULL DEFAULT NULL,
+  `tbl_Modelo_idtbl_Modelo` INT(11) NOT NULL,
+  PRIMARY KEY (`idVehiculo`),
+  INDEX `fk_tbl_Vehiculo_tbl_Modelo1_idx` (`tbl_Modelo_idtbl_Modelo` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_Vehiculo_tbl_Modelo1`
+    FOREIGN KEY (`tbl_Modelo_idtbl_Modelo`)
+    REFERENCES `mydb`.`tbl_Modelo` (`idtbl_Modelo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_NoTelefono` (
+  `idtbl_NoTelefono` INT(11) NOT NULL AUTO_INCREMENT,
+  `tel_casa` INT(11) NULL DEFAULT NULL,
+  `tel_movil1` INT(11) NULL DEFAULT NULL,
+  `tel_movil2` INT(11) NULL DEFAULT NULL,
+  `tel_trabajo` INT(11) NULL DEFAULT NULL,
+  `idCliente` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`idtbl_NoTelefono`),
+  INDEX `fk_tbl_NoTelefono_tbl_Cliente1_idx` (`idCliente` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_NoTelefono_tbl_Cliente1`
+    FOREIGN KEY (`idCliente`)
+    REFERENCES `mydb`.`tbl_Cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Direccion` (
+  `idtbl_Direccion` INT(11) NOT NULL AUTO_INCREMENT,
+  `direccion_casa` VARCHAR(90) NULL DEFAULT NULL,
+  `direccion_trabajo` VARCHAR(90) NULL DEFAULT NULL,
+  `idCliente` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`idtbl_Direccion`),
+  INDEX `fk_tbl_Direccion_tbl_Cliente1_idx` (`idCliente` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_Direccion_tbl_Cliente1`
+    FOREIGN KEY (`idCliente`)
+    REFERENCES `mydb`.`tbl_Cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Marca` (
+  `idtbl_Marca` INT(11) NOT NULL AUTO_INCREMENT,
+  `marca` VARCHAR(45) NULL DEFAULT NULL,
+  `anio` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idtbl_Marca`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Modelo` (
+  `idtbl_Modelo` INT(11) NOT NULL AUTO_INCREMENT,
+  `tipo_vehiculo` VARCHAR(45) NULL DEFAULT NULL,
+  `tipo_combustible` VARCHAR(45) NULL DEFAULT NULL,
+  `traccion` VARCHAR(45) NULL DEFAULT NULL,
+  `no_asientos` INT(11) NULL DEFAULT NULL,
+  `no_puertas` INT(11) NULL DEFAULT NULL,
+  `transmision` VARCHAR(45) NULL DEFAULT NULL,
+  `kilometraje` INT(11) NULL DEFAULT NULL,
+  `tbl_Modelocol` VARCHAR(45) NULL DEFAULT NULL,
+  `tbl_Marca_idtbl_Marca` INT(11) NOT NULL,
+  PRIMARY KEY (`idtbl_Modelo`),
+  INDEX `fk_tbl_Modelo_tbl_Marca1_idx` (`tbl_Marca_idtbl_Marca` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_Modelo_tbl_Marca1`
+    FOREIGN KEY (`tbl_Marca_idtbl_Marca`)
+    REFERENCES `mydb`.`tbl_Marca` (`idtbl_Marca`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Estado` (
+  `idtbl_Estado` INT(11) NOT NULL AUTO_INCREMENT,
+  `retirado` DATETIME NULL DEFAULT NULL,
+  `entregado` DATETIME NULL DEFAULT NULL,
+  `disponibilidad` VARCHAR(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`idtbl_Estado`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_PrecioSeguro` (
+  `idtbl_PrecioSeguro` INT(11) NOT NULL AUTO_INCREMENT,
+  `proveedor` VARCHAR(45) NULL DEFAULT NULL,
+  `tipo_seguro` VARCHAR(45) NULL DEFAULT NULL,
+  `precio` DECIMAL(10) NULL DEFAULT NULL,
+  `tbl_Tarifa_idTarifa` INT(11) NOT NULL,
+  PRIMARY KEY (`idtbl_PrecioSeguro`),
+  INDEX `fk_tbl_PrecioSeguro_tbl_Tarifa1_idx` (`tbl_Tarifa_idTarifa` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_PrecioSeguro_tbl_Tarifa1`
+    FOREIGN KEY (`tbl_Tarifa_idTarifa`)
+    REFERENCES `mydb`.`tbl_Tarifa` (`idTarifa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Sucursal` (
+  `idtbl_Oficina` INT(11) NOT NULL AUTO_INCREMENT,
+  `ciudad` VARCHAR(45) NULL DEFAULT NULL,
+  `horario` VARCHAR(45) NULL DEFAULT NULL,
+  `telefono` INT(11) NULL DEFAULT NULL,
+  `correo` VARCHAR(45) NULL DEFAULT NULL,
+  `idOficina` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`idtbl_Oficina`),
+  INDEX `fk_tbl_Sucursal_tbl_Oficina1_idx` (`idOficina` ASC) VISIBLE,
+  CONSTRAINT `fk_tbl_Sucursal_tbl_Oficina1`
+    FOREIGN KEY (`idOficina`)
+    REFERENCES `mydb`.`tbl_Oficina` (`idOficina`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
