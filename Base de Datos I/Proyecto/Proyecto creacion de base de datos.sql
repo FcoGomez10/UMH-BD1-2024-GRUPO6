@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Persona` (
   `Nombre` VARCHAR(45) NULL,
   `DNI` VARCHAR(45) NULL,
   `No_Telefono` VARCHAR(45) NULL,
-  `Correo electronico` VARCHAR(45) NULL,
+  `Correo_electronico` VARCHAR(45) NULL,
   `id_Domicilio` INT NOT NULL,
   PRIMARY KEY (`id_Persona`),
   CONSTRAINT `fk_tbl_Persona_tbl_Domicilio1`
