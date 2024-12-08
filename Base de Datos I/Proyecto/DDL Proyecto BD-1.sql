@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Domicilio` (
   PRIMARY KEY (`id_Domicilio`))
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `mydb`.`tbl_Persona`
 -- -----------------------------------------------------
