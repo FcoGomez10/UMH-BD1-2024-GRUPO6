@@ -104,7 +104,7 @@ CREATE INDEX `fk_tbl_modelos_tbl_Marcas1_idx` ON `mydb`.`tbl_modelos` (`id_Marca
 CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Vehiculo` (
   `id_Vehiculo` INT NOT NULL AUTO_INCREMENT,
   `No_Placa` VARCHAR(45) NULL,
-  `Año` DATE NULL,
+  `Anio` DATE NULL,
   `Color` VARCHAR(45) NULL,
   `No_VIN` VARCHAR(45) NULL,
   `No_Motor` VARCHAR(45) NULL,
