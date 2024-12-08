@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tbl_Domicilio` (
   `Departamento` VARCHAR(45) NULL,
   `Municipio` VARCHAR(45) NULL,
   `Barrio_Col` VARCHAR(45) NULL,
-  `Nun_Casa` VARCHAR(45) NULL,
+  `Num_Casa` VARCHAR(45) NULL,
   `Calle` VARCHAR(45) NULL,
   PRIMARY KEY (`id_Domicilio`))
 ENGINE = InnoDB;
