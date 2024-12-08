@@ -66,7 +66,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tbl_TipoPersona` (
   PRIMARY KEY (`id_TipoPersona`))
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `mydb`.`tbl_Marcas`
 -- -----------------------------------------------------
