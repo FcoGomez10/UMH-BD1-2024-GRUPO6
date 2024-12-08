@@ -40,7 +40,7 @@ values (1, "Honda");
 insert into tbl_Modelos(id_modelos, Modelo, Tipo, Cilindraje, Combustible, id_Marcas)
 values (1, "Civic", "Sedan", "1800", "Gasolina", 1);
 
-insert into tbl_vehiculo (id_Vehiculo, No_Placa, Año, Color, No_VIN, No_Motor, Valor_Vehiculo, tbl_modelos_id_modelos)
+insert into tbl_vehiculo (id_Vehiculo, No_Placa, Anio, Color, No_VIN, No_Motor, Valor_Vehiculo, tbl_modelos_id_modelos)
 values (1, "HND-1564", "2016-01-01", "Gris", "VIN12345ABC", "PJ12345U123456P", 300000.00, 1);
 
 insert into tbl_notario (id_Notario, Nombre, No_Exequatur, No_Certificado_autenticidad, No_telefono, Correo_Electronico)
